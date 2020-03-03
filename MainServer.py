@@ -19,8 +19,8 @@ def index():
         image_link_1 = "images/boxR.png"
         image_link_2 = "images/boxB.png"
     else:
-        image_link = "images/boxR.png"
-        image_link = "images/boxR.png"
+        image_link_1 = "images/boxR.png"
+        image_link_2 = "images/boxR.png"
     print(image_link_1)
     print(image_link_2)
     return render_template('index.html', image_file_1 = image_link_1, image_file_2 = image_link_2 )
@@ -30,4 +30,4 @@ def info():
     return 'Info'
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host='192.168.35.114')
