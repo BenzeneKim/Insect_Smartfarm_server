@@ -8,17 +8,17 @@ sectionNum = int()
 splitedData = []
 
 
-def splitdata(inputData, sectionNum):
+def splitdata(inputNum, section):
     data = []
-
-    for i in range(sectionNum):
-        data[i]=math.floor(inputData / 2^(sectionNum-1))%2
+    for i in range(section):
+        data[i]=math.floor(inputNum / 2^(section-1))%2
 
     return data
 
 def main()
-    inputData = ser.read()
-    sectionNum = 1
+    if ser.inWaiting():
+        inputData = ser.read()
+    sectionNum = 6
     
     splitedData = splitdata(inputData, sectionNum)
 

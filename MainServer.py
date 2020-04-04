@@ -1,28 +1,24 @@
 from flask import Flask as flask
 from flask import render_template
+from flask import request
+
+import GPIOsetting.py as statusNum
+
+sectorStat[] = statusNum.splitedData
+
 app = flask(__name__)
 
-image_link_1 = str
-image_link_2 = str
-
+imageSec[] = str()
+rboxLink = str("images/boxR.png")
+bboxLink = str("images/boxB.png")
 
 @app.route('/')
 def index():
-    checkError = str(input("change the color"))
-    if (checkError == "11"):
-        image_link_1 = "images/boxB.png"
-        image_link_2 = "images/boxB.png"
-    elif (checkError == "10"):
-        image_link_1 = "images/boxB.png"
-        image_link_2 = "images/boxR.png"
-    elif (checkError == "01"):
-        image_link_1 = "images/boxR.png"
-        image_link_2 = "images/boxB.png"
-    else:
-        image_link_1 = "images/boxR.png"
-        image_link_2 = "images/boxR.png"
-    print(image_link_1)
-    print(image_link_2)
+    for i in range(0,7):
+        if sectorStat[i] == 1:
+            imageSec[i] = bboxLink
+        else:
+            imageSec[i] = rboxLink
     return render_template('index.html', image_file_1 = image_link_1, image_file_2 = image_link_2 )
 
 @app.route('/info')
