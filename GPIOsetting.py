@@ -1,26 +1,22 @@
 import serial
 
 ser = serial.Serial('/dev/ttyAMA0', 9600, timeout=1)
-ser.open()
 
-inputData = int()
-sectionNum = int()
-splitedData = []
-
-
-def splitdata(inputNum, section):
-    data = []
-    for i in range(section):
-        data[i]=math.floor(inputNum / 2^(section-1))%2
-
-    return data
-
-def main()
-    if ser.inWaiting():
-        inputData = ser.read()
-    sectionNum = 6
+class serialData:
+    def __init__(self, serPort, serBaud):
+        self.serPort = port
+        self.serBaud = buad
     
-    splitedData = splitdata(inputData, sectionNum)
+    def defineSer(self, serPort, serBaud):
+        ser = serial.Serial(serPort, serBaud, timeout = 1)
+        return ser
 
-if __name__ == "__main__":
-    main()
+    def getData(self):
+        result  = int()
+        ser = defineSer('/dev/ttyAMA0', 9600)
+        ser.open()
+        if ser.inWaiting()>0:
+              result = ser.read()
+        return result
+    
+    def 

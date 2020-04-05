@@ -2,19 +2,23 @@ from flask import Flask as flask
 from flask import render_template
 from flask import request
 
-import GPIOsetting.py as statusNum
+import serial
 
-sectorStat[] = statusNum.splitedData
+sectorStat = statusNum.splitedData
 
 app = flask(__name__)
 
-imageSec[] = str()
+imageSec = [" "," "," "," "," "," "]
 rboxLink = str("images/boxR.png")
 bboxLink = str("images/boxB.png")
 
+ser = serial.Serial('dev/ttyAMA0', 9600, timeout = 1)
+
+inputData = int()
+
 @app.route('/')
 def index():
-    for i in range(0,7):
+    for i in range(6):
         if sectorStat[i] == 1:
             imageSec[i] = bboxLink
         else:
@@ -25,5 +29,13 @@ def index():
 def info():
     return 'Info'
 
+def SplitData(Input, Num):
+    
+
 if __name__ == "__main__":
     app.run(host='192.168.35.114')
+    global inputData
+    while:
+        if (ser.inWaiting() > 0):
+            inputData = ser.read()
+            
