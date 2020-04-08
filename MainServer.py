@@ -3,6 +3,33 @@ from flask import render_template
 from flask import request
 
 import serial
+from twilio.rest import Client
+
+TWILIO_ACCOUNT_SID = ''
+TWILIO_AUTH_TOKEN = ''
+client=Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
+
+preStatus = bool()
+
+
+def sendSMS():
+    global preStatus
+    confirm = 0
+    for i in range(6):
+        if splitedData[i] == 1:
+            if preStatus == 0:
+                client.messages.create{
+                    to = "+821094772718",
+                    from_ = "+미국번호",
+                    body = "emergency!!"
+                }
+            preStatus = 1
+            confirm = 1
+            break
+
+    if confirm == 0:
+        preStatus = 0
+
 
 app = flask(__name__)
 
@@ -13,7 +40,7 @@ idleLink = str("images/noPro.png")
 ser = serial.Serial('dev/ttyAMA0', 9600, timeout = 1)
 
 inputData = int()
-splitedData = []
+splitedData = {}
 @app.route('/')
 def index():
     for i in range(6):
@@ -34,6 +61,8 @@ def SplitData(Input, Num):
 
     return result
 
+
+
 if __name__ == "__main__":
     app.run(host='192.168.35.114')
     global inputData, splitedData
@@ -41,4 +70,5 @@ if __name__ == "__main__":
         if (ser.inWaiting() > 0):
             inputData = ser.read()
             splitedData = SplitData(inputData, 6)
+        sendSMS()
 
