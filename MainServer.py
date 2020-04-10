@@ -5,17 +5,13 @@ from flask import request
 import serial
 from twilio.rest import Client
 
-
-
 preStatus = bool()
-
-
 
 app = flask(__name__)
 
 imageSec = [" "," "," "," "," "," "]
-errorLink = str("static/error.png")
-idleLink = str("static/noPro.png")
+errorLink = str("error.png")
+idleLink = str("noPro.png")
 
 ser = serial.Serial('/dev/ttyAMA0', 9600, timeout = 1)
 
@@ -66,10 +62,15 @@ def SplitData(Input, Num):
 
 if __name__ == "__main__":
     app.run(host='192.168.35.114')
+    
+    
     while(1):
+        SerialInput = input()
+        print(SerialInput)
         splitedData = {}
-        if (ser.inWaiting() > 0):
-            inputData = ser.read()
-            splitedData = SplitData(inputData, 6)
+        #if (ser.inWaiting() > 0):
+        inputData = ser.read()
+        splitedData = SplitData(int(SerialInput), 6)
+        print(int(splitedData))
         sendSMS()
 
