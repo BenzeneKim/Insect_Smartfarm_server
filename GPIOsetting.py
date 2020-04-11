@@ -2,7 +2,7 @@ import serial
 import math
 from twilio.rest import Client
 
-client = Client('ACd65df6789a2a7709c8cc5c674076e192', 'f9b51a5f83dff22070fd35fa75e3060e')
+client = Client('ACd65df6789a2a7709c8cc5c674076e192', 'bc59eb0dedada89257c532d407f316c1')
 
 
 ser = serial.Serial('/dev/ttyAMA0', 9600, timeout=1)
