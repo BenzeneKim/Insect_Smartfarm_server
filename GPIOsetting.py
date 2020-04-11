@@ -1,22 +1,49 @@
 import serial
+from twilio.rest import Client
+
+client = Client('AC', 'f9b')
+
 
 ser = serial.Serial('/dev/ttyAMA0', 9600, timeout=1)
 
-class serialData:
-    def __init__(self, serPort, serBaud):
-        self.serPort = port
-        self.serBaud = buad
-    
-    def defineSer(self, serPort, serBaud):
-        ser = serial.Serial(serPort, serBaud, timeout = 1)
-        return ser
+resultData = []
+getSerial = int()
 
-    def getData(self):
-        result  = int()
-        ser = defineSer('/dev/ttyAMA0', 9600)
-        ser.open()
-        if ser.inWaiting()>0:
-              result = ser.read()
-        return result
+
+preStatus = bool(0)
+
+def splitData(inputData, num):
+    splitedData = []
+    for i in range(num):
+        splitedData.append(floor(inputData / 2 ^ num) % 2)
     
-    def 
+    return splitedData
+
+def sendSMS(content, toNum):
+    message = client.messages \
+        .create(
+            body = content,
+            from_ = '+12064880473',
+            to = toNum
+        )
+
+def TestConsole():
+    getSerial = input("get data")
+    resultData = splitData(getSerial, 6)
+    confirm = bool(0)
+    for i in range(6):
+        if resultData[i] == 1:
+            if preStatus == 0:
+                sendSMS("emergency",'+821094772718')
+                preStatus = 1
+            confirm = 1
+    if confirm == 0:
+        preStatus = 0
+
+
+def TestSerial():
+    getSerial = ser.readline()
+    resultData = splitedData(getSerial, 6)
+
+while(1):
+    TestConsole()

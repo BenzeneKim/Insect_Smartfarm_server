@@ -3,10 +3,7 @@ from flask import render_template
 from flask import request
 
 import serial
-from twilio.rest import Client
-
-preStatus = bool()
-
+from GPIOsetting import resultData
 app = flask(__name__)
 
 imageSec = [" "," "," "," "," "," "]
@@ -15,34 +12,10 @@ idleLink = str("noPro.png")
 
 ser = serial.Serial('/dev/ttyAMA0', 9600, timeout = 1)
 
-inputData = int()
-splitedData = [0,0,0,0,0,0]
-
-def sendSMS():
-    confirm = 0
-    TWILIO_ACCOUNT_SID = 'ACd65df6789a2a7709c8cc5c674076e192'
-    TWILIO_AUTH_TOKEN = 'f9b51a5f83dff22070fd35fa75e3060e'
-    client=Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
-    for i in range(6):
-        if splitedData[i] == 1:
-            if preStatus == 0:
-                message = client.messages \
-                    .create(
-                        body="emergency",
-                        from_='+12064880473',
-                        to='+8294772718'
-                    )
-            preStatus = 1
-            confirm = 1
-            break
-
-    if confirm == 0:
-        preStatus = 0
-
 @app.route('/')
 def index():
     for i in range(6):
-        if splitedData[i] == 1:
+        if resultData[i] == 1:
             imageSec[i] = errorLink
         else:
             imageSec[i] = idleLink
@@ -62,15 +35,3 @@ def SplitData(Input, Num):
 
 if __name__ == "__main__":
     app.run(host='192.168.35.114')
-    
-    
-    while(1):
-        SerialInput = input()
-        print(SerialInput)
-        splitedData = {}
-        #if (ser.inWaiting() > 0):
-        inputData = ser.read()
-        splitedData = SplitData(int(SerialInput), 6)
-        print(int(splitedData))
-        sendSMS()
-
