@@ -9,9 +9,7 @@ app = flask(__name__)
 imageSec = [" "," "," "," "," "," "]
 errorLink = str("error.png")
 idleLink = str("noPro.png")
-
-ser = serial.Serial('/dev/ttyAMA0', 9600, timeout = 1)
-
+    
 @app.route('/')
 def index():
     for i in range(6):
