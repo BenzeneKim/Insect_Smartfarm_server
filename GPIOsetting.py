@@ -7,7 +7,7 @@ client = Client('ACd65df6789a2a7709c8cc5c674076e192', '46db1d9da5c88bfdaea2f713f
 
 ser = serial.Serial('/dev/ttyAMA0', 9600, timeout=1)
 
-resultData = []
+resultData = ["0","0","0","0","0","0"]
 getSerial = int()
 
 
@@ -29,6 +29,7 @@ def sendSMS(content, toNum):
         )
 
 def TestConsole():
+    resultData = []
     global preStatus
     getSerial = input("get data")
     print(getSerial)
@@ -49,6 +50,6 @@ def TestConsole():
 def TestSerial():
     getSerial = ser.readline()
     resultData = splitedData(getSerial, 6)
-
-while(1):
-    TestConsole()
+if __name__ == "__main__":
+    while(1):
+        TestConsole()
