@@ -29,6 +29,7 @@ def sendSMS(content, toNum):
         )
 
 def TestConsole():
+    resultString = str()
     resultData = []
     global preStatus
     getSerial = input("get data")
@@ -37,12 +38,17 @@ def TestConsole():
     print(resultData)
     confirm = bool(0)
     for i in range(6):
+        resultString += str(int(resultData[i]))
         if resultData[i] == 1:
             print(str(i) + " " + "pro")
             if preStatus == 0:
-                sendSMS("emergency",'+821094772718')
+                #sendSMS("emergency",'+821094772718')
+                print("send sms")
                 preStatus = 1
             confirm = 1
+    DB = open("Database.txt", 'w')
+    DB.write(resultString)
+    DB.close()
     if confirm == 0:
         preStatus = 0
 

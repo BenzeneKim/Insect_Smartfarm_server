@@ -2,16 +2,25 @@ from flask import Flask as flask
 from flask import render_template
 from flask import request
 
-import serial
-from GPIOsetting import resultData
+import logging
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
+
 app = flask(__name__)
 
 imageSec = [" "," "," "," "," "," "]
 errorLink = str("error.png")
 idleLink = str("noPro.png")
-    
+
+inputData = str()
+
 @app.route('/')
 def index():
+    DB = open("Database.txt", 'r')
+    inputData = DB.readline()
+    DB.close()
+
+    resultData = SplitData(inputData, 6)
     for i in range(6):
         if resultData[i] == 1:
             imageSec[i] = errorLink
@@ -26,8 +35,7 @@ def info():
 def SplitData(Input, Num):
     result = []
     for i in range(Num):
-        result.append(floor(Input / 2 ^ Num) % 2)
-
+        result.append(int(Input[i]))
     return result
 
 
