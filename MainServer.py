@@ -40,4 +40,4 @@ def SplitData(Input, Num):
 
 
 if __name__ == "__main__":
-    app.run(host='192.168.35.114')
+    app.run(host='192.168.35.155')                  #user's ip address
