@@ -52,10 +52,40 @@ def TestConsole():
     if confirm == 0:
         preStatus = 0
 
-
 def TestSerial():
-    getSerial = ser.readline()
-    resultData = splitedData(getSerial, 6)
+    resultString = str()
+    global resultData
+    resultData = []
+    global preStatus
+    getSerial = ReadSerFromArduino()
+    resultData = splitData(getSerial, 6)
+    confirm = bool(0)                                       # This variable is to use to indicate whether any section has error
+    for i in range(6):
+        resultString += str(int(resultData[i]))
+        if resultData[i] == 1:                              # the problem is arrived in that section
+            print(str(i+1) + " " + "has the problem")
+            if preStatus == 0:                              # only when the Twilio hasn't sent the SMS to users' phone
+                sendSMS("emergency", '+821094772718')       # send Message to user
+                preStatus = 1
+            confirm = 1                                     # to indicate whether any section has error
+    print (resultString)
+    DB = open("Database.txt", 'w')
+    DB.write(resultString)
+    DB.close()
+    if confirm == 0:
+        if preStatus == 1:
+            sendSMS("solved",'+821094772718')
+        preStatus = 0                                       # to check that the section had the error at the last loop
+
+def ReadSerFromArduino():
+    while(ser.inWaiting()==0):
+        None
+    inputTxt = str(ser.readline())
+    inputTxt = inputTxt.rstrip('\n')
+    inputTxt = inputTxt.rstrip('\r')
+    inputInt = int(inputTxt)
+    return inputInt
+
 if __name__ == "__main__":
     while(1):
-        TestConsole()
+        TestSerial()
