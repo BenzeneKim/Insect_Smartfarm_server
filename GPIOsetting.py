@@ -2,6 +2,8 @@ import serial
 import math
 from twilio.rest import Client
 
+
+import sqlite3
 client = Client('ACd65df6789a2a7709c8cc5c674076e192', 'd68757bd4878d8c529bbc0f7b23cb8a7')
 
 
@@ -10,8 +12,9 @@ ser = serial.Serial('/dev/ttyAMA0', 9600, timeout=1)
 resultData = ["0","0","0","0","0","0"]
 getSerial = int()
 
-
 preStatus = bool(0)
+
+db = sqlite3.connect('farmData.db')
 
 def splitData(inputData, num):
     splitedData = []
@@ -46,9 +49,7 @@ def TestConsole():
                 print("send sms")
                 preStatus = 1
             confirm = 1
-    DB = open("Database.txt", 'w')
-    DB.write(resultString)
-    DB.close()
+    #DatabaseSetting
     if confirm == 0:
         preStatus = 0
 
@@ -69,13 +70,15 @@ def TestSerial():
                 preStatus = 1
             confirm = 1                                     # to indicate whether any section has error
     print (resultString)
-    DB = open("Database.txt", 'w')
-    DB.write(resultString)
-    DB.close()
+    #DatabaseSetting
     if confirm == 0:
         if preStatus == 1:
             sendSMS("solved",'+821094772718')
         preStatus = 0                                       # to check that the section had the error at the last loop
+
+def DatabaseSave(data[]):
+    with db:
+        cur.execute("INSERT INTO FARM_data VALUES(datetime('now') 30.5, 40)")
 
 def ReadSerFromArduino():
     while(ser.inWaiting()==0):
