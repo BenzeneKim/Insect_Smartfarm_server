@@ -14,7 +14,12 @@ getSerial = int()
 
 preStatus = bool(0)
 
-db = sqlite3.connect('farmData.db')
+db = sqlite3.connect('sensorData.db')
+curs = db.cursor()
+
+def addData(moduleNum, temperature, humidity, batPer):
+    curs.execute("INSERT INTO MODULEdata values(datetime('now'), (?), (?), (?), (?))", (moduleNum, temperature, humidity, batPer))
+    db.commit()
 
 def splitData(inputData, num):
     splitedData = []
