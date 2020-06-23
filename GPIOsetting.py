@@ -25,7 +25,6 @@ def splitData(inputData, num):
     splitedData = []
     for i in range(num):
         splitedData.append(math.floor(inputData / (2** i)) % 2)
-    
     return splitedData
 
 def sendSMS(content, toNum):
